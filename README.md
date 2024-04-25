@@ -175,17 +175,24 @@ This listener function will be called in case of an error during the operation.
 | `userID`    | The userID you passed during initialization.    |
 | `timestamp` | UTC timezone. When the function was trigger.    |
 
-### Configure and initialize
+### Configure
 
-#### init function parameters
+To configure the SDK you'll need to call the `init` method.
 
-| Parameter        | Description                                                       |
-| ---------------- | ----------------------------------------------------------------- |
-| `packageContext` | Is the context of your Application/Activity.                      |
-| `apiKey`         | You're client API_KEY. The SDK won't work without it.             |
-| `config`         | Config object will pass the environment and the styles to the SDK |
+| Parameter | Description                                                       |
+| --------- | ----------------------------------------------------------------- |
+| `apiKey`  | You're client API_KEY. The SDK won't work without it.             |
+| `config`  | Config object will pass the environment and the styles to the SDK |
+
+```java
+    TrueDeepfakeDetection.init(apiKey, config)
+```
 
 #### config object
+
+The config object will allow to configure environment excecution, add or delete
+view from the process and change the styles. Also, for the process to work you
+need to pass a userID. The config object will let you do that.
 
 | Parameter      | Description                                                                                                         |
 | -------------- | ------------------------------------------------------------------------------------------------------------------- |
