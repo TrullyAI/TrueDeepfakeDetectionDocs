@@ -81,7 +81,7 @@ composeOptions {
 }
 ```
 
-### 2.- Add dependencies to the App level `build.gradle`
+### 3.- Add dependencies to the App level `build.gradle`
 
 #### Kotlin DSL
 
@@ -103,7 +103,7 @@ dependencies {
 }
 ```
 
-### 3.- Add permission in manifest
+### 4.- Add permission in manifest
 
 ```xml
     <uses-permission android:name="android.permission.INTERNET" />
