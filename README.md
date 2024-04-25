@@ -190,7 +190,7 @@ To configure the SDK you'll need to call the `init` method.
 
 #### config object
 
-The config object will allow to configure environment excecution, add or delete
+The config object will allow to configure environment execution, add or delete
 view from the process and change the styles. Also, for the process to work you
 need to pass a userID. The config object will let you do that.
 
