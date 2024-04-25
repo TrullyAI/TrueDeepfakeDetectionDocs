@@ -106,8 +106,6 @@ dependencies {
 ### 3.- Add permission in manifest
 
 ```xml
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 ```
