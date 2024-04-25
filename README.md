@@ -38,20 +38,58 @@ dependencyResolutionManagement {
 }
 ```
 
+### 2.- Jetpack Compose on your App level `build.gradle`
+
+Enable Jetpack Compose by adding the following to the android section
+
+#### Kotlin DSL
+
+```groovy
+compileOptions {
+    // Support for Java 8 features
+    isCoreLibraryDesugaringEnabled = true
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+buildFeatures {
+    compose = true
+}
+
+composeOptions {
+    kotlinCompilerExtensionVersion = "1.5.1"
+}
+
+```
+
+#### Groovy DSL
+
+```groovy
+compileOptions {
+    // Support for Java 8 features
+    coreLibraryDesugaringEnabled true
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+
+buildFeatures {
+    compose true
+}
+
+composeOptions {
+   kotlinCompilerExtensionVersion '1.5.1'
+}
+```
+
 ### 2.- Add dependencies to the App level `build.gradle`
 
 #### Kotlin DSL
 
 ```groovy
 dependencies {
-    //if you're using JetPack make sure to add this two dependencies otherwise you'll get resource missing error
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("com.google.android.material:material:1.6.1")
-
-    //This are the dependencies that makes our SDK
-    implementation("com.github.TrullyAI:FaceCore:5.2.232")
-    implementation("com.github.TrullyAI:DocumentReaderFullAuth:6.9.9555")
-    implementation("com.github.TrullyAI:TrullyKotlinSDK:0.0.14")
+    implementation("com.github.TrullyAI:TrueDeepfakeDetectionKotlin:1.0.0")
+    // Support for Java 8 features
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
 ```
 
@@ -59,14 +97,9 @@ dependencies {
 
 ```groovy
 dependencies {
-    //if you're using JetPack make sure to add this two dependencies otherwise you'll get resource missing error
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
-
-    //This are the dependencies that makes our SDK
-    implementation 'com.github.TrullyAI:FaceCore:5.2.232'
-    implementation 'com.github.TrullyAI:DocumentReaderFullAuth:6.9.9555'
-    implementation 'com.github.TrullyAI:TrullyKotlinSDK:0.0.14'
+    implementation 'com.github.TrullyAI:TrueDeepfakeDetectionKotlin:1.0.0'
+    // Support for Java 8 features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 }
 ```
 
@@ -257,4 +290,3 @@ class MainActivity : AppCompatActivity(), LivenessResultListener {
     }
 }
 ```
-
