@@ -1,4 +1,5 @@
 # TrueDeepfakeDetectionKotlin
+ TrueDeepfakeDetection is a liveness validator especially equip to detect deepfake fraud. 
 
 ## Add TrueDeepfakeDetection repository and dependencies
 
