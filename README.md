@@ -1,5 +1,7 @@
 # TrueDeepfakeDetectionKotlin
- TrueDeepfakeDetection is a liveness validator especially equip to detect deepfake fraud. 
+
+TrueDeepfakeDetection is a liveness validator especially equip to detect
+deepfake fraud.
 
 ## Add TrueDeepfakeDetection repository and dependencies
 
@@ -145,22 +147,24 @@ Here you'll found the structures of the data received in each listener function
 This listener function will be called when the operation gets the Decision Maker
 result.
 
-| key         | Description                                                                                                    |
-| ----------- | -------------------------------------------------------------------------------------------------------------- |
-| `isAlive`   | Boolean. If true, the video is real.                                                                           |
-| `selfie`    | Base64 string. An image taken during the analysis.                                                             |
-| `userId`    | String. The userId you passed during configuration.                                                            |
-| `tag`       | String. The tag from the process. Automatically generated when you didn't pass one through configuration prop. |
-| `sessionId` | String. The id from the valid analysis.                                                                        |
+| key          | Description                                                                                                    |
+| ------------ | -------------------------------------------------------------------------------------------------------------- |
+| `isAlive`    | Boolean. If true, the video is real.                                                                           |
+| `selfie`     | Base64 string. An image taken during the analysis.                                                             |
+| `userId`     | String. The userId you passed during configuration.                                                            |
+| `tag`        | String. The tag from the process. Automatically generated when you didn't pass one through configuration prop. |
+| `sessionId`  | String. The id from the valid analysis.                                                                        |
+| `DMResponse` | You'll find more details in [Decision Maker API Docs](https://trully.readme.io/reference/decisionmakerpredict) |
 
 ```java
 class MainActivity : AppCompatActivity(), LivenessResultListener {
     override fun onResult(response: TrueDeepfakeDetectionResponse) {
-        Log.d("Response - MainActivity - isAlive", response.isAlive.toString())
-        Log.d("Response - MainActivity - selfie", response.selfie)
-        Log.d("Response - MainActivity - userId", response.userId)
-        Log.d("Response - MainActivity - tag", response.tag)
-        Log.d("Response - MainActivity - sessionId", response.sessionId)
+        Log.d("Response - isAlive", response.isAlive.toString())
+        Log.d("Response - selfie", response.selfie)
+        Log.d("Response - userId", response.userId)
+        Log.d("Response - tag", response.tag)
+        Log.d("Response - sessionId", response.sessionId)
+        Log.d("Response - DM", response.DMResponse.toString())
     }
 }
 ```
@@ -175,6 +179,23 @@ This listener function will be called in case of an error during the operation.
 | `message`   | Error message                                   |
 | `userID`    | The userID you passed during initialization.    |
 | `timestamp` | UTC timezone. When the function was trigger.    |
+
+##### Process Table
+
+| Name                  | Description                                 |
+| --------------------- | ------------------------------------------- |
+| `GETTING_SESSION_ID`  | HTTP error getting sessionId.               |
+| `GETTING_CREDENTIALS` | HTTP error authenticating session.          |
+| `GETTING_LIVENESS`    | HTTP error processing image.                |
+| `GETTING_DM_RESPONSE` | HTTP error getting Decision Maker response. |
+
+#### Example
+
+```java
+    override fun onError(errorData: ErrorData) {
+        Log.d("onError", errorData.toString())
+    }
+```
 
 ### Configure
 
@@ -207,7 +228,7 @@ need to pass a userID. The config object will let you do that.
 
 #### Changing styles
 
-Optionally you can change colors and logo. These are the default values
+Optionally you can change colors and images. These are the default values
 
 ##### Colors
 
@@ -216,24 +237,54 @@ Optionally you can change colors and logo. These are the default values
 | `primaryColor`    | Will change statusBar, button, icons and links color. | #475FFF |
 | `backgroundColor` | Will change button color when legal is not accepted.  | #FFFFFF |
 
-##### Logo
+```java
+  private fun initialize() {
+    val styles: TrullyStyles = TrullyStyles()
+
+    styles.primaryColor = androidx.appcompat.R.color.error_color_material_light
+    styles.backgroundColor = androidx.appcompat.R.color.button_material_dark
+
+    //Set SDK configuration
+    val config = TrullyConfig(environment = Environment.DEBUG, userID = "YOUR_ID_FOR_THE_PROCESS", tag = "VALID_UUID_STRING" , showIdView = true, showExitView = false, style = styles)
+    //* For production environments use `Environment.RELEASE`.
+    //* We recommend using named arguments so the order doesn't matter. If you're not using them, this example shows the order you should pass the arguments
+
+    //Initialize SDK
+    TrueDeepfakeDetection.init(apiKey = "YOUR_API_KEY", config = config)
+
+    //Run SDK
+    TrueDeepfakeDetection.start(packageContext = this, listener = this)
+}
+```
+
+##### Images
 
 We are using the url to show you the images. Please, make sure you upload the
 images to your project and pass the corresponding drawable to the styles object
 
-| Key    | Value                                                                 |
-| ------ | --------------------------------------------------------------------- |
-| `logo` | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/logo.png |
+| Key        | Value                                                                                 |
+| ---------- | ------------------------------------------------------------------------------------- |
+| `logo`     | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/logo.png                 |
+| `light`    | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/luzIcon.svg              |
+| `cross`    | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/retirarElementosIcon.svg |
+| `showId`   | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/pruebavida.svg           |
+| `check`    | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/icon-check.svg           |
+| `timeout`  | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/rostrofail.svg           |
+| `noCamera` | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/cameraDenied-1.svg       |
+| `error`    | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/timeout.svg              |
 
 ```java
   private fun initialize() {
     val styles: TrullyStyles = TrullyStyles()
 
-    styles.logo = ai.trully.truedeepfakedetection.R.drawable.cross
-    styles.primaryColor = androidx.appcompat.R.color.error_color_material_light
-    styles.backgroundColor = androidx.appcompat.R.color.button_material_dark
-
-    styles.uiTexts.docType = Texts.INE
+    styles.logo = ai.trully.truedeepfakedetection.R.drawable.logo
+    styles.light = ai.trully.truedeepfakedetection.R.drawable.light
+    styles.cross = ai.trully.truedeepfakedetection.R.drawable.cross
+    styles.showId = ai.trully.truedeepfakedetection.R.drawable.pruebavida
+    styles.check = ai.trully.truedeepfakedetection.R.drawable.check_circulo
+    styles.timeout = ai.trully.truedeepfakedetection.R.drawable.rostrofail
+    styles.noCamera = ai.trully.truedeepfakedetection.R.drawable.camara
+    styles.error = ai.trully.truedeepfakedetection.R.drawable.timeout
 
     //Set SDK configuration
     val config = TrullyConfig(environment = Environment.DEBUG, userID = "YOUR_ID_FOR_THE_PROCESS", tag = "VALID_UUID_STRING" , showIdView = true, showExitView = false, style = styles)
