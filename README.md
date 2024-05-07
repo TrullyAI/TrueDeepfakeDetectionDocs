@@ -347,3 +347,48 @@ class MainActivity : AppCompatActivity(), LivenessResultListener {
     }
 }
 ```
+
+## How to know the app size
+
+The size that you are seeing is not the size that your end users will get. The
+size that you can see includes support for four architectures (arm64-v8a,
+armeabi-v7a, x86, and x86_64). But one device has one architecture, not four.
+You can check the size of the app for one architecture creating an .aab for a
+specific architecture by following these instructions
+
+### 1.- Configure the desired architecture build on your app level `build.gradle`
+
+#### Kotlin DSL
+
+```groovy
+android {
+    defaultConfig {
+        ...
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
+    }
+}
+```
+
+#### Groovy DSL
+
+```groovy
+android {
+    defaultConfig {
+        ...
+        ndk {
+            abiFilters("arm64-v8a")
+        }
+    }
+}
+```
+
+### 2.- Generate a signed App Bundle
+
+In the Menu of Android Studio: Build -> Generate Signed Bundle / APK. Then
+choose the Android App Bundle option. Follow the assistance instructions and the
+result should be a single architecture bundle with the size your app will take
+on a user device
+
+⚠️ Make sure to delete these configuration before creating the final package
