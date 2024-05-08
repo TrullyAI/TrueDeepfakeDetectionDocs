@@ -156,6 +156,16 @@ result.
 | `sessionId`  | String. The id from the valid analysis.                                                                        |
 | `DMResponse` | You'll find more details in [Decision Maker API Docs](https://trully.readme.io/reference/decisionmakerpredict) |
 
+### DMResponse data
+
+| Key            | Description                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| `request_id`   | String. The id of the DM Response                                                           |
+| `label`        | String. The label generate by the Decision Maker for the user who has completed the process |
+|                | No Threat - low risk user. Review - medium risk user. Potential Threat - high risk user     |
+| `reason`       | Array. Contains the reasons behind the decision                                             |
+| `request_date` | String. UTC timezone date for the request                                                   |
+
 ```java
 class MainActivity : AppCompatActivity(), LivenessResultListener {
     override fun onResult(response: TrueDeepfakeDetectionResponse) {
