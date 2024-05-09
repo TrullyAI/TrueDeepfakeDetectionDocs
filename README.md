@@ -115,7 +115,7 @@ dependencies {
 
 ## Add it to you're project
 
-### Listener
+### Add Listeners
 
 Add LivenessResultListener to the activity that will launch the SDK and
 implement its members so you can have access to the process data.
@@ -124,6 +124,8 @@ implement its members so you can have access to the process data.
 | ---------- | ----------------------------------- |
 | `onResult` | Catch the results of the operation. |
 | `onError`  | Catch the errors of the operation.  |
+
+#### Example
 
 ```java
 class MainActivity : AppCompatActivity(), LivenessResultListener {
@@ -134,6 +136,77 @@ class MainActivity : AppCompatActivity(), LivenessResultListener {
 
     override fun onError(errorData: ErrorData) {
         Log.d("onError", errorData.toString())
+    }
+}
+```
+
+### Configure
+
+To configure the SDK you'll need to call the `init` method.
+
+| Parameter | Description                                                       |
+| --------- | ----------------------------------------------------------------- |
+| `apiKey`  | You're client API_KEY. The SDK won't work without it.             |
+| `config`  | Config object will pass the environment and the styles to the SDK |
+
+#### Example
+
+```java
+    val config = TrullyConfig(environment = Environment.DEBUG, userID = "YOUR_ID_FOR_THE_PROCESS")
+    //* For production environments use `Environment.RELEASE`. Required
+    //* userID will identify the user completing the process. Required
+
+    TrueDeepfakeDetection.init(apiKey = "YOUR_API_KEY", config = config)
+```
+
+### Launch
+
+To start the SDK you'll need to call the `start` method.
+
+| Parameter        | Description                                                 |
+| ---------------- | ----------------------------------------------------------- |
+| `packageContext` | Is the context of your Application/Activity.                |
+| `listener`       | Is the LivenessResultListener of your Application/activity. |
+
+#### Example
+
+```java
+    TrueDeepfakeDetection.start(packageContext = this, listener = this)
+```
+
+### Complete Example with default styles
+
+```java
+class MainActivity : AppCompatActivity(), LivenessResultListener {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        findViewById<Button>(R.id.launchTrully)
+            .setOnClickListener {
+                initialize()
+            }
+    }
+
+    override fun onResult(response: TrueDeepfakeDetectionResponse) {
+        Log.d("onResult", response.toString())
+    }
+
+    override fun onError(errorData: ErrorData) {
+        Log.d("onError", errorData.toString())
+    }
+
+    private fun initialize() {
+       //Set SDK configuration
+       val config = TrullyConfig(environment = Environment.DEBUG, userID = "YOUR_ID_FOR_THE_PROCESS")
+       //* For production environments use `Environment.RELEASE`. Required
+       //* userID will identify the user completing the process. Required
+
+        //Initialize SDK
+        TrueDeepfakeDetection.init(apiKey = "YOUR_API_KEY", config = config)
+
+        //Run SDK
+        TrueDeepfakeDetection.start(packageContext = this, listener = this)
     }
 }
 ```
@@ -156,15 +229,7 @@ result.
 | `sessionId`  | String. The id from the valid analysis.                                                                        |
 | `DMResponse` | You'll find more details in [Decision Maker API Docs](https://trully.readme.io/reference/decisionmakerpredict) |
 
-### DMResponse data
-
-| Key            | Description                                                                                 |
-| -------------- | ------------------------------------------------------------------------------------------- |
-| `request_id`   | String. The id of the DM Response                                                           |
-| `label`        | String. The label generate by the Decision Maker for the user who has completed the process |
-|                | No Threat - low risk user. Review - medium risk user. Potential Threat - high risk user     |
-| `reason`       | Array. Contains the reasons behind the decision                                             |
-| `request_date` | String. UTC timezone date for the request                                                   |
+#### Example
 
 ```java
 class MainActivity : AppCompatActivity(), LivenessResultListener {
@@ -179,6 +244,16 @@ class MainActivity : AppCompatActivity(), LivenessResultListener {
 }
 ```
 
+### DMResponse data
+
+| Key            | Description                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| `request_id`   | String. The id of the DM Response                                                           |
+| `label`        | String. The label generate by the Decision Maker for the user who has completed the process |
+|                | No Threat - low risk user. Review - medium risk user. Potential Threat - high risk user     |
+| `reason`       | Array. Contains the reasons behind the decision                                             |
+| `request_date` | String. UTC timezone date for the request                                                   |
+
 ### onError
 
 This listener function will be called in case of an error during the operation.
@@ -190,6 +265,14 @@ This listener function will be called in case of an error during the operation.
 | `userID`    | The userID you passed during initialization.    |
 | `timestamp` | UTC timezone. When the function was trigger.    |
 
+#### Example
+
+```java
+    override fun onError(errorData: ErrorData) {
+        Log.d("onError", errorData.toString())
+    }
+```
+
 ##### Process Table
 
 | Name                  | Description                                 |
@@ -199,28 +282,7 @@ This listener function will be called in case of an error during the operation.
 | `GETTING_LIVENESS`    | HTTP error processing image.                |
 | `GETTING_DM_RESPONSE` | HTTP error getting Decision Maker response. |
 
-#### Example
-
-```java
-    override fun onError(errorData: ErrorData) {
-        Log.d("onError", errorData.toString())
-    }
-```
-
-### Configure
-
-To configure the SDK you'll need to call the `init` method.
-
-| Parameter | Description                                                       |
-| --------- | ----------------------------------------------------------------- |
-| `apiKey`  | You're client API_KEY. The SDK won't work without it.             |
-| `config`  | Config object will pass the environment and the styles to the SDK |
-
-```java
-    TrueDeepfakeDetection.init(apiKey, config)
-```
-
-#### config object
+#### Personalization
 
 The config object will allow to configure environment execution, add or delete
 view from the process and change the styles. Also, for the process to work you
@@ -246,6 +308,8 @@ Optionally you can change colors and images. These are the default values
 | ----------------- | ----------------------------------------------------- | ------- |
 | `primaryColor`    | Will change statusBar, button, icons and links color. | #475FFF |
 | `backgroundColor` | Will change button color when legal is not accepted.  | #FFFFFF |
+
+#### Example
 
 ```java
   private fun initialize() {
@@ -283,6 +347,8 @@ images to your project and pass the corresponding drawable to the styles object
 | `noCamera` | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/cameraDenied-1.svg       |
 | `error`    | https://trully-api-documentation.s3.amazonaws.com/trully-sdk/timeout.svg              |
 
+#### Example
+
 ```java
   private fun initialize() {
     val styles: TrullyStyles = TrullyStyles()
@@ -307,19 +373,6 @@ images to your project and pass the corresponding drawable to the styles object
     //Run SDK
     TrueDeepfakeDetection.start(packageContext = this, listener = this)
 }
-```
-
-### Launch
-
-To start the SDK you'll need to call the `start` method.
-
-| Parameter        | Description                                                 |
-| ---------------- | ----------------------------------------------------------- |
-| `packageContext` | Is the context of your Application/Activity.                |
-| `listener`       | Is the LivenessResultListener of your Application/activity. |
-
-```java
-    TrueDeepfakeDetection.start(packageContext, listener)
 ```
 
 ### Full Example
