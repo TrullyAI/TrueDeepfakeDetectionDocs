@@ -92,7 +92,7 @@ composeOptions {
 dependencies {
     implementation("com.github.TrullyAI:TrueDeepfakeDetectionKotlin:version")
     // Support for Java 8 features
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }
 ```
 
@@ -102,7 +102,7 @@ dependencies {
 dependencies {
     implementation 'com.github.TrullyAI:TrueDeepfakeDetectionKotlin:version'
     // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 ```
 
