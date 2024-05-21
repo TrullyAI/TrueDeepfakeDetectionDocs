@@ -48,19 +48,21 @@ Enable Jetpack Compose by adding the following to the android section
 #### Kotlin DSL
 
 ```groovy
-compileOptions {
-    // Support for Java 8 features
-    isCoreLibraryDesugaringEnabled = true
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
+android {
+    compileOptions {
+        // Support for Java 8 features
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
-buildFeatures {
-    compose = true
-}
+    buildFeatures {
+        compose = true
+    }
 
-composeOptions {
-    kotlinCompilerExtensionVersion = "1.5.1"
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
 }
 
 ```
@@ -68,19 +70,21 @@ composeOptions {
 #### Groovy DSL
 
 ```groovy
-compileOptions {
-    // Support for Java 8 features
-    coreLibraryDesugaringEnabled true
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-}
+android {
+    compileOptions {
+        // Support for Java 8 features
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
-buildFeatures {
-    compose true
-}
+    buildFeatures {
+        compose true
+    }
 
-composeOptions {
-   kotlinCompilerExtensionVersion '1.5.1'
+    composeOptions {
+    kotlinCompilerExtensionVersion '1.5.1'
+    }
 }
 ```
 
