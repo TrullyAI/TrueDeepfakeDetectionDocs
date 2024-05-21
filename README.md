@@ -90,9 +90,9 @@ composeOptions {
 
 ```groovy
 dependencies {
-    implementation("com.github.TrullyAI:TrueDeepfakeDetectionKotlin:1.0.0")
+    implementation("com.github.TrullyAI:TrueDeepfakeDetectionKotlin:version")
     // Support for Java 8 features
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }
 ```
 
@@ -100,9 +100,9 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'com.github.TrullyAI:TrueDeepfakeDetectionKotlin:1.0.0'
+    implementation 'com.github.TrullyAI:TrueDeepfakeDetectionKotlin:version'
     // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 ```
 
