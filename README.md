@@ -88,7 +88,7 @@ android {
 }
 ```
 
-### 3.- Add dependencies to the App level `build.gradle`
+### 3.a- Add dependencies to the App level `build.gradle`
 
 #### Kotlin DSL
 
@@ -107,6 +107,29 @@ dependencies {
     implementation 'com.github.TrullyAI:TrueDeepfakeDetectionKotlin:version'
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+}
+```
+
+### 3.b- Add dependencies using the libraries system
+
+#### `libs.versions.toml` file
+
+```groovy
+[versions]
+liveness = "version"
+desugaring = "1.1.5"
+
+[libraries]
+liveness = { group = "com.github.TrullyAI", name = "TrueDeepfakeDetectionKotlin", version.ref = "liveness" }
+desugaring-library = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
+```
+
+#### App level `build.gradle`
+
+```groovy
+dependencies {
+    implementation(libs.liveness)
+    coreLibraryDesugaring(libs.desugaring.library)
 }
 ```
 
@@ -138,8 +161,8 @@ class MainActivity : AppCompatActivity(), LivenessResultListener {
         Log.d("onresult", response.toString())
     }
 
-    override fun onError(errorData: ErrorData) {
-        Log.d("onError", errorData.toString())
+    override fun onError(error: ErrorData) {
+        Log.d("onError", error.toString())
     }
 }
 ```
@@ -181,6 +204,13 @@ To start the SDK you'll need to call the `start` method.
 ### Complete Example with default styles
 
 ```java
+import ai.trully.truedeepfakedetection.TrueDeepfakeDetection
+import ai.trully.truedeepfakedetection.configurations.TrullyConfig
+import ai.trully.truedeepfakedetection.models.Environment
+import ai.trully.truedeepfakedetection.models.ErrorData
+import ai.trully.truedeepfakedetection.models.TrueDeepfakeDetectionResponse
+import ai.trully.truedeepfakedetection.protocols.listeners.LivenessResultListener
+
 class MainActivity : AppCompatActivity(), LivenessResultListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -196,8 +226,8 @@ class MainActivity : AppCompatActivity(), LivenessResultListener {
         Log.d("onResult", response.toString())
     }
 
-    override fun onError(errorData: ErrorData) {
-        Log.d("onError", errorData.toString())
+    override fun onError(error: ErrorData) {
+        Log.d("onError", error.toString())
     }
 
     private fun initialize() {
@@ -272,8 +302,8 @@ This listener function will be called in case of an error during the operation.
 #### Example
 
 ```java
-    override fun onError(errorData: ErrorData) {
-        Log.d("onError", errorData.toString())
+    override fun onError(error: ErrorData) {
+        Log.d("onError", error.toString())
     }
 ```
 
@@ -382,6 +412,13 @@ images to your project and pass the corresponding drawable to the styles object
 ### Full Example
 
 ```java
+import ai.trully.truedeepfakedetection.TrueDeepfakeDetection
+import ai.trully.truedeepfakedetection.configurations.TrullyConfig
+import ai.trully.truedeepfakedetection.models.Environment
+import ai.trully.truedeepfakedetection.models.ErrorData
+import ai.trully.truedeepfakedetection.models.TrueDeepfakeDetectionResponse
+import ai.trully.truedeepfakedetection.protocols.listeners.LivenessResultListener
+
 class MainActivity : AppCompatActivity(), LivenessResultListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -397,8 +434,8 @@ class MainActivity : AppCompatActivity(), LivenessResultListener {
         Log.d("onResult", response.toString())
     }
 
-    override fun onError(errorData: ErrorData) {
-        Log.d("onError", errorData.toString())
+    override fun onError(error: ErrorData) {
+        Log.d("onError", error.toString())
     }
 
     private fun initialize() {
