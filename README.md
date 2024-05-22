@@ -414,6 +414,7 @@ images to your project and pass the corresponding drawable to the styles object
 ```java
 import ai.trully.truedeepfakedetection.TrueDeepfakeDetection
 import ai.trully.truedeepfakedetection.configurations.TrullyConfig
+import ai.trully.truedeepfakedetection.configurations.TrullyStyles
 import ai.trully.truedeepfakedetection.models.Environment
 import ai.trully.truedeepfakedetection.models.ErrorData
 import ai.trully.truedeepfakedetection.models.TrueDeepfakeDetectionResponse
