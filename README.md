@@ -218,10 +218,7 @@ class MainActivity : AppCompatActivity(), LivenessResultListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.launchTrully)
-            .setOnClickListener {
-                initialize()
-            }
+        initialize()
     }
 
     override fun onResult(response: TrueDeepfakeDetectionResponse) {
@@ -427,10 +424,7 @@ class MainActivity : AppCompatActivity(), LivenessResultListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.launchTrully)
-            .setOnClickListener {
-                initialize()
-            }
+        initialize()
     }
 
     override fun onResult(response: TrueDeepfakeDetectionResponse) {
