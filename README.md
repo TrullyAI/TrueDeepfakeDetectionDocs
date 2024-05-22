@@ -41,7 +41,36 @@ dependencyResolutionManagement {
 }
 ```
 
-### 2.- Jetpack Compose on your App level `build.gradle`
+### 2.- Check compileSdk and minSdk
+
+Our module requires a compileSdk of, at least, 34 and a minSdk of, at least, 24.
+Make sure your `build.gradle` has the correct versioning
+
+#### Kotlin DSL
+
+```groovy
+android {
+    compileSdk = 34
+
+    defaultConfig {
+        minSdk = 24
+    }
+}
+```
+
+#### Groovy DSL
+
+```groovy
+android {
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+    }
+}
+```
+
+### 3.- Jetpack Compose on your App level `build.gradle`
 
 Enable Jetpack Compose by adding the following to the android section
 
@@ -88,13 +117,15 @@ android {
 }
 ```
 
-### 3.a- Add dependencies to the App level `build.gradle`
+### 4- Add dependencies
+
+#### Without libraries system. Add the dependencies directly to the App level `build.gradle`
 
 #### Kotlin DSL
 
 ```groovy
 dependencies {
-    implementation("com.github.TrullyAI:TrueDeepfakeDetectionKotlin:version")
+    implementation("com.github.TrullyAI:TrueDeepfakeDetectionKotlin:latest") //change latest for the version number
     // Support for Java 8 features
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }
@@ -104,19 +135,19 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'com.github.TrullyAI:TrueDeepfakeDetectionKotlin:version'
+    implementation 'com.github.TrullyAI:TrueDeepfakeDetectionKotlin:latest' //change latest for the version number
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 ```
 
-### 3.b- Add dependencies using the libraries system
+### With libraries system.
 
-#### `libs.versions.toml` file
+#### 1.- Add the dependencies info to the `libs.versions.toml` file
 
 ```groovy
 [versions]
-liveness = "version"
+liveness = "latest" //change latest for the version number
 desugaring = "1.1.5"
 
 [libraries]
@@ -124,7 +155,7 @@ liveness = { group = "com.github.TrullyAI", name = "TrueDeepfakeDetectionKotlin"
 desugaring-library = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
 ```
 
-#### App level `build.gradle`
+#### 2.- Add the library dependencies to your App level `build.gradle`
 
 ```groovy
 dependencies {
