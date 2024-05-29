@@ -70,7 +70,7 @@ android {
 }
 ```
 
-### 3.- Jetpack Compose on your App level `build.gradle`
+### 3.- Add Jetpack Compose and ViewBinding on your App level `build.gradle`
 
 Enable Jetpack Compose by adding the following to the android section
 
@@ -92,6 +92,10 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
+    
+    viewBinding {
+        enable = true
+    }
 }
 
 ```
@@ -112,7 +116,11 @@ android {
     }
 
     composeOptions {
-    kotlinCompilerExtensionVersion '1.5.1'
+    	kotlinCompilerExtensionVersion '1.5.1'
+    }
+    
+    viewBinding {
+        enabled true
     }
 }
 ```
