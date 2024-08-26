@@ -92,7 +92,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
-    
+
     viewBinding {
         enable = true
     }
@@ -118,7 +118,7 @@ android {
     composeOptions {
     	kotlinCompilerExtensionVersion '1.5.1'
     }
-    
+
     viewBinding {
         enabled true
     }
@@ -221,6 +221,28 @@ To configure the SDK you'll need to call the `init` method.
 
 ```java
     val config = TrullyConfig(environment = Environment.DEBUG, userID = "YOUR_ID_FOR_THE_PROCESS")
+    //* For production environments use `Environment.RELEASE`. Required
+    //* userID will identify the user completing the process. Required
+
+    TrueDeepfakeDetection.init(apiKey = "YOUR_API_KEY", config = config)
+```
+
+#### Configure back event
+
+To start the process you need to pass the packageContext. This is because our
+SDK runs on top of that context, which means if you run it from an empty
+Activity and the user goes back while on the first view of the SDK it will be
+left with an empty view. Same goes for fragments. <br/> You can control this by
+passing an optional Lambda function to the TrullyConfig object so you can decide
+where the user should be redirected
+
+##### Example
+
+```java
+    val config = TrullyConfig(environment = Environment.DEBUG, userID = "YOUR_ID_FOR_THE_PROCESS") {
+        //This will run only on the first view of the SDK
+        Toast.makeText(this, "On Back Pressed", Toast.LENGTH_SHORT).show()
+    }
     //* For production environments use `Environment.RELEASE`. Required
     //* userID will identify the user completing the process. Required
 
