@@ -185,8 +185,8 @@ dependencies {
 
 ### Add Listeners
 
-Add LivenessResultListener to the activity that will launch the SDK and
-implement its members so you can have access to the process data.
+Add LivenessListeners to the activity that will launch the SDK and implement its
+members so you can have access to the process data.
 
 | Method     | Description                         |
 | ---------- | ----------------------------------- |
@@ -196,7 +196,7 @@ implement its members so you can have access to the process data.
 #### Example
 
 ```java
-class MainActivity : AppCompatActivity(), LivenessResultListener {
+class MainActivity : AppCompatActivity(), LivenessListeners {
 
     override fun onResult(response: TrullyResponse) {
         Log.d("onresult", response.toString())
@@ -204,6 +204,26 @@ class MainActivity : AppCompatActivity(), LivenessResultListener {
 
     override fun onError(error: ErrorData) {
         Log.d("onError", error.toString())
+    }
+}
+```
+
+#### Configure back event
+
+To start the process you need to pass the packageContext. This is because our
+SDK runs on top of that context, which means if you run it from an empty
+Activity and the user goes back while on the first view of the SDK it will be
+left with an empty view. Same goes for fragments. <br/> You can control this by
+passing an optional onLeaveFromStart listener
+
+##### Example
+
+```java
+    class MainActivity : AppCompatActivity(), LivenessListeners {
+
+    override fun onLeaveFromStart(error: ErrorData) {
+        val navController = findNavController()
+        navController.navigate(R.id.action_secondFragment_to_firstFragment)
     }
 }
 ```
@@ -227,36 +247,14 @@ To configure the SDK you'll need to call the `init` method.
     TrueDeepfakeDetection.init(apiKey = "YOUR_API_KEY", config = config)
 ```
 
-#### Configure back event
-
-To start the process you need to pass the packageContext. This is because our
-SDK runs on top of that context, which means if you run it from an empty
-Activity and the user goes back while on the first view of the SDK it will be
-left with an empty view. Same goes for fragments. <br/> You can control this by
-passing an optional Lambda function to the TrullyConfig object so you can decide
-where the user should be redirected
-
-##### Example
-
-```java
-    val config = TrullyConfig(environment = Environment.DEBUG, userID = "YOUR_ID_FOR_THE_PROCESS") {
-        //This will run only on the first view of the SDK
-        Toast.makeText(this, "On Back Pressed", Toast.LENGTH_SHORT).show()
-    }
-    //* For production environments use `Environment.RELEASE`. Required
-    //* userID will identify the user completing the process. Required
-
-    TrueDeepfakeDetection.init(apiKey = "YOUR_API_KEY", config = config)
-```
-
 ### Launch
 
 To start the SDK you'll need to call the `start` method.
 
-| Parameter        | Description                                                 |
-| ---------------- | ----------------------------------------------------------- |
-| `packageContext` | Is the context of your Application/Activity.                |
-| `listener`       | Is the LivenessResultListener of your Application/activity. |
+| Parameter        | Description                                            |
+| ---------------- | ------------------------------------------------------ |
+| `packageContext` | Is the context of your Application/Activity.           |
+| `listener`       | Is the LivenessListeners of your Application/activity. |
 
 #### Example
 
@@ -272,9 +270,9 @@ import ai.trully.truedeepfakedetection.configurations.TrullyConfig
 import ai.trully.truedeepfakedetection.models.Environment
 import ai.trully.truedeepfakedetection.models.ErrorData
 import ai.trully.truedeepfakedetection.models.TrueDeepfakeDetectionResponse
-import ai.trully.truedeepfakedetection.protocols.listeners.LivenessResultListener
+import ai.trully.truedeepfakedetection.protocols.listeners.LivenessListeners
 
-class MainActivity : AppCompatActivity(), LivenessResultListener {
+class MainActivity : AppCompatActivity(), LivenessListeners {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -326,7 +324,7 @@ result.
 #### Example
 
 ```java
-class MainActivity : AppCompatActivity(), LivenessResultListener {
+class MainActivity : AppCompatActivity(), LivenessListeners {
     override fun onResult(response: TrueDeepfakeDetectionResponse) {
         Log.d("Response - isAlive", response.isAlive.toString())
         Log.d("Response - selfie", response.selfie)
@@ -478,9 +476,9 @@ import ai.trully.truedeepfakedetection.configurations.TrullyStyles
 import ai.trully.truedeepfakedetection.models.Environment
 import ai.trully.truedeepfakedetection.models.ErrorData
 import ai.trully.truedeepfakedetection.models.TrueDeepfakeDetectionResponse
-import ai.trully.truedeepfakedetection.protocols.listeners.LivenessResultListener
+import ai.trully.truedeepfakedetection.protocols.listeners.LivenessListeners
 
-class MainActivity : AppCompatActivity(), LivenessResultListener {
+class MainActivity : AppCompatActivity(), LivenessListeners {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
