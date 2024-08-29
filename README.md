@@ -188,10 +188,11 @@ dependencies {
 Add LivenessListeners to the activity that will launch the SDK and implement its
 members so you can have access to the process data.
 
-| Method     | Description                         |
-| ---------- | ----------------------------------- |
-| `onResult` | Catch the results of the operation. |
-| `onError`  | Catch the errors of the operation.  |
+| Method             | Description                                                   |
+| ------------------ | ------------------------------------------------------------- |
+| `onResult`         | Catch the results of the operation.                           |
+| `onError`          | Catch the errors of the operation.                            |
+| `onLeaveFromStart` | (optional) Re-direct the user when leaving from the SDK start |
 
 #### Example
 
